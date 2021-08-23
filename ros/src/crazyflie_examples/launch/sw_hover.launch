@@ -32,7 +32,7 @@
   <arg name="estimator_dt" default="0.01" />
 
   <!-- Dimensions. -->
-  <arg name="x_dim" default="7" />
+  <arg name="x_dim" default="12" />
   <arg name="u_dim" default="4" />
 
   <!-- TF static publisher to create a base_link frame for the crazyflie. -->
