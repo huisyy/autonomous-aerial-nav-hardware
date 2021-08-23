@@ -48,6 +48,7 @@
 #include <crazyflie_msgs/ControlStamped.h>
 #include <crazyflie_msgs/Control.h>
 #include <crazyflie_msgs/PositionVelocityStateStamped.h>
+#include <crazyflie_msgs/FullStateStamped.h>
 
 #include <ros/ros.h>
 #include <std_srvs/Empty.h>

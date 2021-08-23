@@ -41,7 +41,7 @@ Authors: David Fridovich-Keil   ( dfk@eecs.berkeley.edu )
 #
 ################################################################################
 
-from crazyflie_msgs.msg import PositionVelocityStateStamped
+from crazyflie_msgs.msg import FullStateStamped
 
 import rospy
 import std_msgs.msg
@@ -89,7 +89,7 @@ class MoveServer(object):
     def RegisterCallbacks(self):
         # Publishers.
         self._ref_pub = rospy.Publisher(self._ref_topic,
-                                        PositionVelocityStateStamped,
+                                        FullStateStamped,
                                         queue_size=1)
 
         # Services.
@@ -102,7 +102,7 @@ class MoveServer(object):
         rospy.loginfo("%s: Moving to reference point #%d.",
                       self._name, self._current_idx)
 
-        msg = PositionVelocityStateStamped()
+        msg = FullStateStamped()
         msg.header.stamp = rospy.Time.now()
         msg.state.x = self._refs[self._current_idx][0]
         msg.state.y = self._refs[self._current_idx][1]
@@ -110,6 +110,13 @@ class MoveServer(object):
         msg.state.x_dot = 0.0
         msg.state.y_dot = 0.0
         msg.state.z_dot = 0.0
+
+        msg.state.roll = 0
+        msg.state.pitch = 0
+        msg.state.yaw = 0
+        msg.state.roll_dot = 0
+        msg.state.pitch_dot = 0
+        msg.state.yaw_dot = 0
 
         self._ref_pub.publish(msg)
         self._current_idx = (self._current_idx + 1) % len(self._refs)

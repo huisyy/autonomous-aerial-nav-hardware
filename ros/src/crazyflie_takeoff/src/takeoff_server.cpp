@@ -101,7 +101,7 @@ bool TakeoffServer::RegisterCallbacks(const ros::NodeHandle& n) {
   control_pub_ = nl.advertise<crazyflie_msgs::ControlStamped>(
     control_topic_.c_str(), 10, false);
 
-  reference_pub_ = nl.advertise<crazyflie_msgs::PositionVelocityStateStamped>(
+  reference_pub_ = nl.advertise<crazyflie_msgs::FullStateStamped>(
     reference_topic_.c_str(), 10, false);
 
   in_flight_pub_ = nl.advertise<std_msgs::Empty>(
@@ -202,7 +202,7 @@ TakeoffService(std_srvs::Empty::Request& req, std_srvs::Empty::Response& res) {
   }
 
   // Send reference to LQR (which is hopefully running...).
-  crazyflie_msgs::PositionVelocityStateStamped reference;
+  crazyflie_msgs::FullStateStamped reference;
   reference.header.stamp = ros::Time::now();
   reference.state.x = hover_point_(0);
   reference.state.y = hover_point_(1);
@@ -210,6 +210,13 @@ TakeoffService(std_srvs::Empty::Request& req, std_srvs::Empty::Response& res) {
   reference.state.x_dot = 0.0;
   reference.state.y_dot = 0.0;
   reference.state.z_dot = 0.0;
+
+  reference.state.roll = 0;
+  reference.state.pitch = 0;
+  reference.state.yaw = 0;
+  reference.state.roll_dot = 0;
+  reference.state.pitch_dot = 0;
+  reference.state.yaw_dot = 0;
 
   reference_pub_.publish(reference);
   std::cout << "Hover point: " << hover_point_.transpose() << std::endl;
